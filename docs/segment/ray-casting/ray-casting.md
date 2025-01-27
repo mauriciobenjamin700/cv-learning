@@ -55,19 +55,20 @@ for cada pixel na tela:
 Vamos construir duas funções em **Python**, sendo elas a `is_point_inside_polygon` e `apply_mask_to_image`.
 
 - `is_point_inside_polygon` : Usando a técnica de **Ray Casting**, iremos calcular se um determinado ponto está dentro de um objeto poligonal, onde temos apenas as arestas do polígono.
-- `generate_mask` Usando nossa função `is_point_inside_polygon` iremos criar uma mascara para a segmentação de uma imagem, onde toda a zona de interesse ficará `branca`, enquanto o restante da imagem ficará completamente `preta`.
-- `apply_mask_to_image` : Usando o resultado de nossa função `generate_mask` iremos gerar uma nova imagem a partir da entrada e de sua mascara para obter sua segmentação.
+- `apply_mask_to_image` : Usando nossa função `is_point_inside_polygon` iremos aplicar uma mascara para a segmentação de uma imagem, onde toda a zona de interesse ficará intocada, enquanto o restante da imagem ficará completamente `preta`.
 
-Obs: Fique tranquilo que se você
+Obs: Fique tranquilo que se você não está familiarizado com certos termos, iremos explicar e dar alguns exemplos. Comece observando a Figura 1.
 
 ![Polígono](./images/polygon.png)
 
 Figura 1: Polígono de exemplo para o experimento.
+VÉRTICE
+Cada um dos pontos [H, I, J, K, L, M] são as nossas `VÉRTICE` enquanto as linhas que conseguimos traçar entre duas `VÉRTICES` são o que chamamos de `ARESTAS` ou `RETA`. Esses termos vão te ajudar a entender o que o algoritmo faz.
 
 ```python
 def is_point_inside_polygon(x:int, y:int, polygon: list[list[int]]) -> bool:
     """
-    Verifica se um ponto (x, y) está dentro de um polígono.
+    Esta função verifica se um ponto (x, y) está dentro de um polígono.
     Utiliza o algoritmo do teste do número de cruzamentos (Ray Casting).
 
     O método Ray Casting baseia-se em traçar uma linha imaginária (um "raio") a partir do ponto em questão e contar quantas vezes essa linha cruza as arestas do polígono.
@@ -95,7 +96,7 @@ def is_point_inside_polygon(x:int, y:int, polygon: list[list[int]]) -> bool:
         O operador % num_points conecta o último vértice ao primeiro, garantindo um polígono fechado
         """
         x1, y1 = polygon[i] # Pega o primeiro vértice da sequência
-        x2, y2 = polygon[(i + 1) % num_points] #  Pega o próximo vértice da sequência. Se for o último, pega o primeiro ().
+        x2, y2 = polygon[(i + 1) % num_points] #  Pega o próximo vértice da sequência. Se for o último, pega o primeiro.
         """
         A cima, o índice (i+1) se torna igual a (num_points), mas o operador % retorna 0, por que (num_points)%num_points == 0
 
@@ -171,7 +172,7 @@ def is_point_inside_polygon(x:int, y:int, polygon: list[list[int]]) -> bool:
     return inside
 
 
-def generate_mask(
+def apply_mask_to_image(
         image: list[list[list[int]]], 
         polygon: list[list[int]],
     ):
